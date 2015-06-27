@@ -1,0 +1,4 @@
+---
+# file group_vars/test
+
+hostname: test-{{ ansible_default_ipv4.address|replace(".", "-") }}

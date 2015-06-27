@@ -1,0 +1,35 @@
+---
+- name: Initial basic configuration
+  hosts: all
+
+  tasks:
+  - name: Run a full upgrade
+    command: yum -y upgrade
+
+  - name: Setup hostname
+    hostname:
+      name: '{{ hostname }}'
+
+  - name: Setup sshd
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: '{{ item.regexp }}'
+      line:   '{{ item.line }}'
+    with_items:
+      - { regexp: '^#?Port',                   line: 'Port 22' }
+      - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication no' }
+      - { regexp: '^#?LoginGraceTime',         line: 'LoginGraceTime 30' }
+      - { regexp: '^#?AllowTcpForwarding',     line: 'AllowTcpForwarding no' }
+      - { regexp: '^#?X11Forwarding',          line: 'X11Forwarding no' }
+    notify:
+      - restart sshd
+
+  - name: Set datapine user
+    user:
+      name: datapine
+
+  handlers:
+  - name: restart sshd
+    service:
+      name: sshd
+      state: restarted
