@@ -1,6 +1,6 @@
 ---
 - name: Initial basic configuration
-  hosts: all
+  hosts: test
 
   tasks:
   - name: Run a full upgrade
@@ -16,7 +16,7 @@
       regexp: '{{ item.regexp }}'
       line:   '{{ item.line }}'
     with_items:
-      - { regexp: '^#?Port',                   line: 'Port 22' }
+      - { regexp: '^#?Port',                   line: 'Port 9922' }
       - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication no' }
       - { regexp: '^#?LoginGraceTime',         line: 'LoginGraceTime 30' }
       - { regexp: '^#?AllowTcpForwarding',     line: 'AllowTcpForwarding no' }
