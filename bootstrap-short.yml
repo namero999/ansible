@@ -1,0 +1,17 @@
+---
+- name: Initial basic configuration
+
+  hosts: test
+
+  tasks:
+
+  - name: Set key for datapine user
+    authorized_key:
+      user: datapine
+      key: "{{ lookup('file', 'keys/datapine.pub') }}"
+
+  handlers:
+  - name: restart sshd
+    service:
+      name: sshd
+      state: restarted
