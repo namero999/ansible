@@ -1,0 +1,4 @@
+---
+ansible_ssh_port: 22
+ansible_ssh_user: root
+hostname: fresh-{{ ansible_default_ipv4.address|replace(".", "-") }}

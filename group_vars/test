@@ -1,4 +1,5 @@
 ---
-# file group_vars/test
-
+ansible_ssh_port: 9922
+ansible_ssh_user: datapine
+ansible_ssh_private_key_file: /root/ansible/keys/datapine.pri
 hostname: test-{{ ansible_default_ipv4.address|replace(".", "-") }}
