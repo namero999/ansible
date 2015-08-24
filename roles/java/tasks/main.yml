@@ -1,0 +1,4 @@
+---
+- name: Install JDK
+  yum:
+    name: java-1.7.0-openjdk-headless

@@ -9,16 +9,16 @@
   - name: Change root password
     user:
       name: root
-      password: $1$datapine$x2gzk3zninv5pMWOWWz4d.
+      password: $1$datapine$DM/eonQRgEQlEGyfNEGtc.
+
+  - name: Setup hostname
+    hostname:
+      name: '{{ hostname }}'
 
   - name: Run a full upgrade
     yum:
       name: '*'
       state: latest
-
-  - name: Setup hostname
-    hostname:
-      name: '{{ hostname }}'
 
   - name: Base packages
     yum:
@@ -51,7 +51,7 @@
   - name: Set key for datapine user
     authorized_key:
       user: datapine
-      key: '{{ lookup("file", "keys/datapine.pub") }}'
+      key: '{{ lookup("file", "keys/provisioned.pub") }}'
 
   - name: Setup sshd
     lineinfile:
