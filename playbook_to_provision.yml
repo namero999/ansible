@@ -22,7 +22,7 @@
 
   - name: Base packages
     yum:
-      name: net-tools,wget,curl,lsof,vim,htop,bash-completion,zip,unzip,libaio,bc,flex
+      name: net-tools,wget,curl,lsof,vim,htop,bash-completion,zip,unzip,libaio,bc,flex,java-1.7.0-openjdk-devel
 
   - name: Disable useless services
     service:
@@ -34,15 +34,15 @@
       - avahi-daemon.service
       - avahi-daemon.socket
 
-  - name: Uninstall useless services
-    yum:
-      name: '{{ item }}'
-      state: absent
-    with_items:
-      - postfix
-      - avahi
-      - avahi-libs
-      - avahi-autoipd
+#  - name: Uninstall useless services
+#    yum:
+#      name: '{{ item }}'
+#      state: absent
+#    with_items:
+#      - postfix
+#      - avahi
+#      - avahi-libs
+#      - avahi-autoipd
 
   - name: Set datapine user
     user:
