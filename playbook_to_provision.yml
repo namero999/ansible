@@ -22,7 +22,21 @@
 
   - name: Base packages
     yum:
-      name: net-tools,wget,curl,lsof,vim,htop,bash-completion,zip,unzip,libaio,bc,flex,java-1.7.0-openjdk-devel
+      name: net-tools,wget,curl,lsof,vim,ncdu,htop,bash-completion,zip,unzip,libaio,bc,flex
+
+  - name: Install JDK
+    unarchive:
+      src: packages/jdk-7u79-linux-x64.tar.gz
+      dest: /opt
+      owner: root
+      group: root
+      creates: /opt/jdk1.7.0_79
+
+  - name: Set JAVA_HOME
+    lineinfile:
+      dest: /etc/environment
+      regexp: ^JAVA_HOME
+      line:    JAVA_HOME="/opt/jdk1.7.0_79"
 
   - name: Disable useless services
     service:
@@ -34,15 +48,15 @@
       - avahi-daemon.service
       - avahi-daemon.socket
 
-#  - name: Uninstall useless services
-#    yum:
-#      name: '{{ item }}'
-#      state: absent
-#    with_items:
-#      - postfix
-#      - avahi
-#      - avahi-libs
-#      - avahi-autoipd
+  - name: Uninstall useless services
+    yum:
+      name: '{{ item }}'
+      state: absent
+    with_items:
+      - postfix
+      - avahi
+      - avahi-libs
+      - avahi-autoipd
 
   - name: Set datapine user
     user:
@@ -60,7 +74,7 @@
       line:   '{{ item.line }}'
     with_items:
       - { regexp: '^#?Port',                   line: 'Port 9922' }
-      - { regexp: '^#?PermitRootLogin',        line: 'PermitRootLogin no' }
+#      - { regexp: '^#?PermitRootLogin',        line: 'PermitRootLogin no' }
       - { regexp: '^#?PasswordAuthentication', line: 'PasswordAuthentication no' }
       - { regexp: '^#?LoginGraceTime',         line: 'LoginGraceTime 30' }
       - { regexp: '^#?AllowTcpForwarding',     line: 'AllowTcpForwarding no' }
