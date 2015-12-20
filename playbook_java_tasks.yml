@@ -1,0 +1,15 @@
+---
+- name: Install JDK
+  unarchive:
+    src: https://s3.eu-central-1.amazonaws.com/ansible.repo/{{ java_version }}.tar.gz
+    dest: /
+    copy: no
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    creates: /opt/{{ java_version }}
+
+- name: Set JAVA_HOME
+  lineinfile:
+    dest: /etc/environment
+    regexp: ^JAVA_HOME
+    line: JAVA_HOME=/opt/{{ java_version }}

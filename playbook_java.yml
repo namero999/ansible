@@ -1,15 +1,17 @@
 ---
 - name: Java
 
+  hosts: prepared_machines
+
   vars_files:
-    - files/secure_vars.yml
-    - files/java_vars.yml
+    - vars/secure_vars.yml
+    - vars/java_vars.yml
 
   tasks:
     - name: Install JDK
       unarchive:
         src: https://s3.eu-central-1.amazonaws.com/ansible.repo/{{ java_version }}.tar.gz
-        dest: /opt
+        dest: /
         copy: no
         owner: '{{ user }}'
         group: '{{ user }}'
