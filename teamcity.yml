@@ -1,0 +1,57 @@
+---
+- name: Install TC dependencies
+  yum:
+    name: haveged, nginx
+
+- name: Enable TC dependencies
+  service:
+    name: '{{ item }}'
+    enabled: yes
+    state: started
+  with_items:
+    - haveged
+    - nginx
+
+- name: Create TC database
+  command: psql -U postgres -c "CREATE DATABASE teamcity;"
+  remote_user: postgres
+
+- name: Install TC
+  unarchive:
+    src: https://d1opms6zj7jotq.cloudfront.net/teamcity/TeamCity-9.1.4.tar.gz
+    dest: /opt
+    copy: no
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    creates: /opt/TeamCity
+
+- name: JDBC driver (mkdir)
+  file:
+    path: /home/{{ user }}/.BuildServer/lib/jdbc
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: JDBC driver (copy)
+  get_url:
+    url: https://jdbc.postgresql.org/download/postgresql-9.4-1206-jdbc42.jar
+    dest: /home/{{ user }}/.BuildServer/lib/jdbc
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: Open TC port
+  command: semanage port -a -t http_port_t -p tcp 8111
+  ignore_errors: yes
+
+- name: Configure TC service
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: files/systemd.teamcity.service, dest: /usr/lib/systemd/system/teamcity.service }
+    - { src: files/nginx.teamcity.conf, dest: /etc/nginx/conf.d/teamcity.conf }
+
+- name: Enable TC service
+  service:
+    name: teamcity
+    enabled: yes

@@ -1,0 +1,14 @@
+[Unit]
+Description=TeamCity
+Requires=network.target postgresql-9.4.service
+After=syslog.target network.target postgresql-9.4.service
+
+[Service]
+Type=forking
+Environment=JAVA_HOME=/opt/jdk1.8.0_66
+ExecStart=/opt/TeamCity/bin/runAll.sh start
+ExecStop=/opt/TeamCity/bin/runAll.sh stop
+User=odarroc
+
+[Install]
+WantedBy=multi-user.target
