@@ -1,4 +1,0 @@
----
-ansible_ssh_port: 9922
-ansible_ssh_user: datapine
-ansible_ssh_private_key_file: /root/ansible/keys/provisioned.openssh
