@@ -1,7 +1,7 @@
 ---
 - name: Install TC dependencies
   yum:
-    name: haveged, nginx
+    name: haveged, nginx, python-psycopg2
 
 - name: Enable TC dependencies
   service:
@@ -13,8 +13,10 @@
     - nginx
 
 - name: Create TC database
-  command: psql -U postgres -c "CREATE DATABASE teamcity;"
-  remote_user: postgres
+  postgresql_db:
+    name: teamcity
+  become: yes
+  become_user: postgres
 
 - name: Install TC
   unarchive:
@@ -40,12 +42,15 @@
     group: '{{ user }}'
 
 - name: Open TC port
-  command: semanage port -a -t http_port_t -p tcp 8111
-  ignore_errors: yes
+  seport:
+    setype: http_port_t
+    ports: 80,8111
+    proto: tcp
+    state: present
 
 - name: Configure TC service
   copy:
-    src: '{{ item.src }}'
+    src:  '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:
     - { src: files/systemd.teamcity.service, dest: /usr/lib/systemd/system/teamcity.service }
@@ -55,3 +60,4 @@
   service:
     name: teamcity
     enabled: yes
+    state: started
