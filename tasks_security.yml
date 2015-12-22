@@ -86,5 +86,8 @@
     - { regexp: '^#?AllowTcpForwarding.*',              line: 'AllowTcpForwarding no' }
     - { regexp: '^#?X11Forwarding.*',                   line: 'X11Forwarding no' }
     - { regexp: '^#?UseDNS.*',                          line: 'UseDNS no' }
-  notify:
-    - Restart sshd
+
+- name: Restart sshd
+  service:
+    name: sshd
+    state: restarted

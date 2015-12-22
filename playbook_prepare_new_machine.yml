@@ -12,9 +12,3 @@
     - include: tasks_java.yml
     - include: tasks_postgres.yml
     - include: tasks_teamcity.yml
-
-  handlers:
-    - name: Restart sshd
-      service:
-        name: sshd
-        state: restarted
