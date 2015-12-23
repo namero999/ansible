@@ -1,0 +1,13 @@
+[Unit]
+Description=SonarQube
+Requires=network.target postgresql-9.4.service
+After=syslog.target network.target postgresql-9.4.service
+
+[Service]
+Type=forking
+ExecStart=/opt/sonarqube-5.2/bin/linux-x86-64/sonar.sh start
+ExecStop=/opt/sonarqube-5.2/bin/linux-x86-64/sonar.sh stop
+User=odarroc
+
+[Install]
+WantedBy=multi-user.target

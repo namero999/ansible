@@ -13,3 +13,4 @@
     - include: tasks_postgres.yml
     - include: tasks_teamcity.yml
     - include: tasks_nexus.yml
+    - include: tasks_sonar.yml

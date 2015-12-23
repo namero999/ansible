@@ -1,0 +1,51 @@
+---
+- name: Install SonarQube
+  unarchive:
+    src: https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.2.zip
+    dest: /opt
+    copy: no
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    creates: /opt/sonarqube-5.2
+
+- name: Create SonarQube database
+  postgresql_db:
+    name: sonarqube
+  become: yes
+  become_user: postgres
+
+- name: Configure SonarQube (wrapper)
+  replace:
+    dest: /opt/sonarqube-5.2/conf/wrapper.conf
+    regexp: ^wrapper.java.command.*
+    replace: wrapper.java.command=/opt/{{ java_version }}/bin/java
+
+- name: Configure SonarQube (app)
+  replace:
+    dest: /opt/sonarqube-5.2/conf/sonar.properties
+    regexp:  '{{ item.regexp }}'
+    replace: '{{ item.line }}'
+  with_items:
+    - { regexp: '^#?sonar.jdbc.username.*',            line: 'sonar.jdbc.username=postgres' }
+    - { regexp: '^#?sonar.jdbc.password.*',            line: 'sonar.jdbc.password={{ pg_pwd }}' }
+    - { regexp: '^#?sonar.jdbc.url=jdbc:postgresql.*', line: 'sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube' }
+    - { regexp: '^#?sonar.web.host.*',                 line: 'sonar.web.host=localhost' }
+
+- name: Configure SonarQube service
+  copy:
+    src:  '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: files/systemd.sonar.service, dest: /usr/lib/systemd/system/sonar.service }
+    - { src: files/nginx.sonar.conf, dest: /etc/nginx/conf.d/sonar.conf }
+
+- name: Enable SonarQube service
+  service:
+    name: sonar
+    enabled: yes
+    state: started
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
