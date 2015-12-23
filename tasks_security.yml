@@ -20,7 +20,7 @@
 
 - name: Install base packages
   yum:
-    name: net-tools, wget, curl, lsof, vim, ncdu, htop, telnet, bash-completion, zip, unzip, libaio, bc, flex
+    name: net-tools, wget, curl, lsof, vim, ncdu, htop, telnet, bash-completion, zip, unzip, libaio, bc, flex, git
 
 - name: Disable useless services
   service:
