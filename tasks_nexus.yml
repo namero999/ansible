@@ -15,14 +15,14 @@
     group: '{{ user }}'
     creates: /opt/nexus/sonatype-work
 
-- name: Find directory
+- name: Find directory name
   find:
     paths: /opt/nexus
     patterns: nexus*
     file_type: directory
   register: nexus_path
 
-- name: Link 
+- name: Link directory
   file:
     src: '{{ nexus_path.files[0].path }}'
     dest: /opt/nexus/nexus
@@ -30,11 +30,15 @@
     group: '{{ user }}'
     state: link
 
-- name: Configure Nexus (port)
+- name: Configure Nexus (app)
   replace:
     dest: /opt/nexus/nexus/conf/nexus.properties
-    regexp: application-port.*
-    replace: application-port=8085
+    regexp:  '{{ item.regexp }}'
+    replace: '{{ item.line }}'
+  with_items:
+    - { regexp: 'application-port.*',          line: 'application-port=8085' }
+    - { regexp: 'application-host.*',          line: 'application-host=localhost' }
+    - { regexp: 'nexus-webapp-context-path.*', line: 'nexus-webapp-context-path=/' }
 
 - name: Configure Nexus (java)
   replace:

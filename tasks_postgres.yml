@@ -14,6 +14,17 @@
   become: yes
   become_user: postgres
 
+- name: Configure PostgreSQL
+  replace:
+    dest: /var/lib/pgsql/9.4/data/postgresql.conf
+    regexp:  '{{ item.regexp }}'
+    replace: '{{ item.line }}'
+  with_items:
+    - { regexp: '^#?shared_buffers.*',               line: 'shared_buffers = 512MB' }
+    - { regexp: '^#?synchronous_commit.*',           line: 'synchronous_commit = off' }
+    - { regexp: '^#?checkpoint_segments.*',          line: 'checkpoint_segments = 32' }
+    - { regexp: '^#?checkpoint_completion_target.*', line: 'checkpoint_completion_target = 0.9' }
+
 - name: Enable PostgreSQL service
   service:
     name: postgresql-9.4
