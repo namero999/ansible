@@ -1,0 +1,13 @@
+[Unit]
+Description=Nexus
+Requires=network.target
+After=syslog.target network.target
+
+[Service]
+Type=forking
+ExecStart=/opt/nexus/nexus/bin/nexus start
+ExecStop=/opt/nexus/nexus/bin/nexus stop
+User=odarroc
+
+[Install]
+WantedBy=multi-user.target

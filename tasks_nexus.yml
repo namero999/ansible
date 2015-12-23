@@ -1,0 +1,69 @@
+---
+- name: Install Nexus (mkdir)
+  file:
+    path: /opt/nexus
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ user }}'
+
+- name: Install Nexus
+  unarchive:
+    src: http://www.sonatype.org/downloads/nexus-latest-bundle.tar.gz
+    dest: /opt/nexus
+    copy: no
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    creates: /opt/nexus/sonatype-work
+
+- name: Find directory
+  find:
+    paths: /opt/nexus
+    patterns: nexus*
+    file_type: directory
+  register: nexus_path
+
+- name: Link 
+  file:
+    src: '{{ nexus_path.files[0].path }}'
+    dest: /opt/nexus/nexus
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    state: link
+
+- name: Configure Nexus (port)
+  replace:
+    dest: /opt/nexus/nexus/conf/nexus.properties
+    regexp: application-port.*
+    replace: application-port=8085
+
+- name: Configure Nexus (java)
+  replace:
+    dest: /opt/nexus/nexus/bin/jsw/conf/wrapper.conf
+    regexp: wrapper.java.command.*
+    replace: wrapper.java.command=/opt/{{ java_version }}/bin/java
+
+- name: Open Nexus port
+  seport:
+    setype: http_port_t
+    ports: '8085'
+    proto: tcp
+    state: present
+
+- name: Configure Nexus service
+  copy:
+    src:  '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: files/systemd.nexus.service, dest: /usr/lib/systemd/system/nexus.service }
+    - { src: files/nginx.nexus.conf, dest: /etc/nginx/conf.d/nexus.conf }
+
+- name: Enable Nexus service
+  service:
+    name: nexus
+    enabled: yes
+    state: started
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted
