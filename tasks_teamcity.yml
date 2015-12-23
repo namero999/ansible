@@ -20,7 +20,7 @@
 
 - name: Install TC
   unarchive:
-    src: https://d1opms6zj7jotq.cloudfront.net/teamcity/TeamCity-9.1.4.tar.gz
+    src: https://d1opms6zj7jotq.cloudfront.net/teamcity/TeamCity-9.1.5.tar.gz
     dest: /opt
     copy: no
     owner: '{{ user }}'
