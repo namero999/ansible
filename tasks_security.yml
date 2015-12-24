@@ -83,7 +83,7 @@
     - { regexp: '^#?PasswordAuthentication.*',          line: 'PasswordAuthentication no' }
     - { regexp: '^#?ChallengeResponseAuthentication.*', line: 'ChallengeResponseAuthentication no' }
     - { regexp: '^#?GSSAPIAuthentication.*',            line: 'GSSAPIAuthentication no' }
-    - { regexp: '^#?AllowTcpForwarding.*',              line: 'AllowTcpForwarding no' }
+    - { regexp: '^#?AllowTcpForwarding.*',              line: 'AllowTcpForwarding yes' }
     - { regexp: '^#?X11Forwarding.*',                   line: 'X11Forwarding no' }
     - { regexp: '^#?UseDNS.*',                          line: 'UseDNS no' }
 
