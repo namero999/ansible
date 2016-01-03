@@ -61,6 +61,14 @@
     - /root/.bashrc
     - /home/{{ user }}/.bashrc
 
+- name: Assign /opt to user
+  file:
+    path: /opt
+    state: directory
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    recurse: yes
+
 - name: Open sshd port
   seport:
     setype: ssh_port_t
