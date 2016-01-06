@@ -54,7 +54,7 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: files/systemd.teamcity.service, dest: /usr/lib/systemd/system/teamcity.service }
-    - { src: files/nginx.teamcity.conf, dest: /etc/nginx/conf.d/teamcity.conf }
+    - { src: files/nginx.teamcity.conf,      dest: /etc/nginx/conf.d/teamcity.conf }
 
 - name: Enable TC service
   service:

@@ -1,0 +1,24 @@
+---
+- name: Install Letsencrypt
+  git:
+    repo: https://github.com/letsencrypt/letsencrypt
+    dest: /opt/letsencrypt
+    clone: yes
+    depth: 1
+  become: yes
+  become_user: '{{ user }}'
+
+- name: Letsencrypt config (mkdir)
+  file:
+    path: /etc/letsencrypt
+    state: directory
+
+- name: Letsencrypt config (copy)
+  copy:
+    src: files/letsencrypt.conf
+    dest: /etc/letsencrypt/cli.ini
+
+- name: Generate certificates
+  command: /opt/letsencrypt/letsencrypt-auto certonly
+  args:
+    creates: /etc/letsencrypt/live

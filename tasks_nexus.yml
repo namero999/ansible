@@ -59,7 +59,7 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: files/systemd.nexus.service, dest: /usr/lib/systemd/system/nexus.service }
-    - { src: files/nginx.nexus.conf, dest: /etc/nginx/conf.d/nexus.conf }
+    - { src: files/nginx.nexus.conf,      dest: /etc/nginx/conf.d/nexus.conf }
 
 - name: Enable Nexus service
   service:
