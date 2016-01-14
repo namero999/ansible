@@ -12,6 +12,10 @@ The setup is splitted in different modules
   - Installation of Nexus artifact repository
 - Sonar
   - Installation of SonarQube code analysis tool
+- Nginx
+  - Reverse proxy to expose the above services on separate domains
+- Letsencrypt
+  - Automatic generation of SSL certificates for the above services and subdomains
 
 To trigger the installation one must run
 
