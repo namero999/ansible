@@ -32,7 +32,7 @@
     - { regexp: '^#?sonar.web.host.*',                 line: 'sonar.web.host=localhost' }
 
 - name: Configure SonarQube service
-  copy:
+  template:
     src:  '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:

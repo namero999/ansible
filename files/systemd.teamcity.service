@@ -5,10 +5,10 @@ After=syslog.target network.target postgresql-9.4.service
 
 [Service]
 Type=forking
-Environment=JAVA_HOME=/opt/jdk1.8.0_66
+Environment=JAVA_HOME=/opt/{{ java_version }}
 ExecStart=/opt/TeamCity/bin/runAll.sh start
 ExecStop=/opt/TeamCity/bin/runAll.sh stop
-User=odarroc
+User={{ user }}
 
 [Install]
 WantedBy=multi-user.target
