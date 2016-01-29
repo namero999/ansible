@@ -6,6 +6,7 @@
   vars_files:
     - vars/secure_vars.yml
     - vars/java_vars.yml
+    - vars/sonar_vars.yml
 
   tasks:
     - include: tasks_security.yml

@@ -2,10 +2,10 @@
 
 # User specific aliases and functions
 
-alias rm = 'rm -i'
-alias cp = 'cp -i'
-alias mv = 'mv -i'
-alias l  = 'll'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias l='ll'
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then

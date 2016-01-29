@@ -1,12 +1,12 @@
 ---
 - name: Install SonarQube
   unarchive:
-    src: https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.2.zip
+    src: https://sonarsource.bintray.com/Distribution/sonarqube/{{ sonar_version }}.zip
     dest: /opt
     copy: no
     owner: '{{ user }}'
     group: '{{ user }}'
-    creates: /opt/sonarqube-5.2
+    creates: /opt/{{ sonar_version }}
 
 - name: Create SonarQube database
   postgresql_db:
@@ -16,13 +16,13 @@
 
 - name: Configure SonarQube (wrapper)
   replace:
-    dest: /opt/sonarqube-5.2/conf/wrapper.conf
+    dest: /opt/{{ sonar_version }}/conf/wrapper.conf
     regexp: ^wrapper.java.command.*
     replace: wrapper.java.command=/opt/{{ java_version }}/bin/java
 
 - name: Configure SonarQube (app)
   replace:
-    dest: /opt/sonarqube-5.2/conf/sonar.properties
+    dest: /opt/{{ sonar_version }}/conf/sonar.properties
     regexp:  '{{ item.regexp }}'
     replace: '{{ item.line }}'
   with_items:

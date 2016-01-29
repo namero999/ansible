@@ -52,14 +52,17 @@
     user: '{{ user }}'
     key: '{{ lookup("file", "keys/" + hostname + ".pub") }}'
 
-- name: Set .bashrc
+- name: Set .bashrc for root
   copy:
-    src: files/bashrc
-    dest: '{{ item }}'
+    src: files/bashrc.root
+    dest: /root/.bashrc
     force: yes
-  with_items:
-    - /root/.bashrc
-    - /home/{{ user }}/.bashrc
+
+- name: Set .bashrc for user
+  copy:
+    src: files/bashrc.user
+    dest: /home/{{ user }}/.bashrc
+    force: yes
 
 - name: Assign /opt to user
   file:

@@ -1,0 +1,15 @@
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias l='ll'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+export PS1="[\[\e[37;41m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m\] \[\e[33m\]\w\[\e[m\]]\[\e[35m\]λ\[\e[m\] "

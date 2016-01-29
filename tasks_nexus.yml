@@ -43,7 +43,7 @@
 - name: Configure Nexus (java)
   replace:
     dest: /opt/nexus/nexus/bin/jsw/conf/wrapper.conf
-    regexp: wrapper.java.command.*
+    regexp: ^wrapper.java.command.*
     replace: wrapper.java.command=/opt/{{ java_version }}/bin/java
 
 - name: Open Nexus port
