@@ -13,18 +13,18 @@
     path: /etc/letsencrypt
     state: directory
 
-#- name: Letsencrypt config (copy)
-#  copy:
-#    src: files/letsencrypt.conf
-#    dest: /etc/letsencrypt/cli.ini
+- name: Letsencrypt config (copy)
+  copy:
+    src: files/letsencrypt.conf
+    dest: /etc/letsencrypt/cli.ini
 
-#- name: Generate certificates
-#  command: /opt/letsencrypt/letsencrypt-auto certonly
-#  args:
-#    creates: /etc/letsencrypt/live
+- name: Generate certificates
+  command: /opt/letsencrypt/letsencrypt-auto certonly
+  args:
+    creates: /etc/letsencrypt/live
 
-- name: Copy certificates
-  unarchive:
-    src: files/letsencrypt-certs.tar.gz
-    dest: /root
-    copy: yes
+#- name: Copy certificates
+#  unarchive:
+#    src: files/letsencrypt-certs.tar.gz
+#    dest: /root
+#    copy: yes

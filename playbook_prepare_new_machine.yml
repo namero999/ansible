@@ -10,7 +10,7 @@
 
   tasks:
     - include: tasks_security.yml
-#    - include: tasks_letsencrypt.yml
+    - include: tasks_letsencrypt.yml
     - include: tasks_java.yml
     - include: tasks_postgres.yml
     - include: tasks_teamcity.yml

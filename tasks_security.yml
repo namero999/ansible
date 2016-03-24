@@ -29,8 +29,6 @@
     state: stopped
   with_items:
     - postfix
-#    - avahi-daemon.socket
-#    - avahi-daemon.service
   ignore_errors: yes
 
 - name: Uninstall useless services
@@ -39,9 +37,6 @@
     state: absent
   with_items:
     - postfix
-#    - avahi
-#    - avahi-libs
-#    - avahi-autoipd
 
 - name: Set user
   user:
