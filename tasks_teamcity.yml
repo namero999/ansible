@@ -36,7 +36,7 @@
 
 - name: JDBC driver (copy)
   get_url:
-    url: https://jdbc.postgresql.org/download/postgresql-9.4-1206-jdbc42.jar
+    url: https://jdbc.postgresql.org/download/postgresql-9.4.1208.jar
     dest: /home/{{ user }}/.BuildServer/lib/jdbc
     owner: '{{ user }}'
     group: '{{ user }}'

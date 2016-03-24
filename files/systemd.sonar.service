@@ -1,7 +1,7 @@
 [Unit]
 Description=SonarQube
-Requires=network.target postgresql-9.4.service
-After=syslog.target network.target postgresql-9.4.service
+Requires=network.target postgresql-9.5.service
+After=syslog.target network.target postgresql-9.5.service
 
 [Service]
 Type=forking
